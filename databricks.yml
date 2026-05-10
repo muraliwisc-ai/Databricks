@@ -1,9 +1,6 @@
 bundle:
   name: muralis
 
-workspace:
-  root_path: /Shared/muralis/${bundle.target}
-
 variables:
   catalog_name:
     description: Unity Catalog name
@@ -25,6 +22,7 @@ targets:
     default: true
     workspace:
       host: https://adb-7405614357178703.3.azuredatabricks.net
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/muralis/dev
     variables:
       catalog_name: dev_team
       schema_name: testing
@@ -36,6 +34,7 @@ targets:
     mode: production
     workspace:
       host: https://adb-7405609168043068.8.azuredatabricks.net
+      root_path: /Shared/muralis/prod
     variables:
       catalog_name: prod
       schema_name: testing
