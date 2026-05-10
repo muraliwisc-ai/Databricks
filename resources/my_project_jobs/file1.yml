@@ -15,7 +15,7 @@ resources:
       tasks:
         - task_key: run_notebook
           notebook_task:
-            notebook_path: ../../src/my_project_code/file1
+            notebook_path: ../../src/my_project_code/file1.py
             base_parameters:
               catalog: ${var.catalog_name}
               schema: ${var.schema_name}
