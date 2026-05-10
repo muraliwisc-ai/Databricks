@@ -1,0 +1,26 @@
+name: Deploy to Prod
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST_PROD }}
+  DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN_PROD }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Databricks CLI
+        run: curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+      - name: Validate
+        run: databricks bundle validate --target prod
+
+      - name: Deploy
+        run: databricks bundle deploy --target prod

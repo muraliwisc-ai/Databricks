@@ -1,0 +1,6 @@
+variables:
+  catalog_name: dev_team
+  schema_name: testing
+  notification_email: pendemajay94@gmail.com
+  schedule_cron: "0 0 6 * * ?"
+  schedule_pause_status: PAUSED

@@ -1,0 +1,43 @@
+bundle:
+  name: muralis
+
+variables:
+  catalog_name:
+    description: Unity Catalog name
+  schema_name:
+    description: Schema name
+  notification_email:
+    description: Email for failure notifications
+  schedule_cron:
+    description: Cron schedule expression
+  schedule_pause_status:
+    description: PAUSED or UNPAUSED
+
+include:
+  - resources/my_project_jobs/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://adb-7405614357178703.3.azuredatabricks.net
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/muralis/dev
+    variables:
+      catalog_name: dev_team
+      schema_name: testing
+      notification_email: muraliwisc@gmail.com
+      schedule_cron: "0 0 6 * * ?"
+      schedule_pause_status: PAUSED
+
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-7405609168043068.8.azuredatabricks.net
+      root_path: /Shared/muralis/prod
+    variables:
+      catalog_name: prod
+      schema_name: testing
+      notification_email: muraliwisc@gmail.com
+      schedule_cron: "0 0 6 * * ?"
+      schedule_pause_status: UNPAUSED
