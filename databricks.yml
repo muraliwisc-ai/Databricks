@@ -28,7 +28,7 @@ targets:
     variables:
       catalog_name: dev_team
       schema_name: testing
-      notification_email: pendemajay94@gmail.com
+      notification_email: muraliwisc@gmail.com
       schedule_cron: "0 0 6 * * ?"
       schedule_pause_status: PAUSED
 
@@ -39,6 +39,6 @@ targets:
     variables:
       catalog_name: prod
       schema_name: testing
-      notification_email: pendemajay94@gmail.com
+      notification_email: muraliwisc@gmail.com
       schedule_cron: "0 0 6 * * ?"
       schedule_pause_status: UNPAUSED
