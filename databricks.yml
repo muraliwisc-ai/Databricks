@@ -1,0 +1,24 @@
+bundle:
+  name: muralis
+
+workspace:
+  root_path: /Shared/muralis/${bundle.target}
+
+include:
+  - resources/my_project_jobs/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://adb-7405614357178703.3.azuredatabricks.net
+    include:
+      - resources/env_vars/dev.yml
+
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-7405609168043068.8.azuredatabricks.net
+    include:
+      - resources/env_vars/prod.yml
