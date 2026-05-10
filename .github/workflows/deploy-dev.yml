@@ -1,0 +1,27 @@
+name: Deploy to Dev
+
+on:
+  push:
+    branches:
+      - develop
+      - 'feature/**'
+
+env:
+  DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST_DEV }}
+  DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN_DEV }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Databricks CLI
+        run: curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+      - name: Validate
+        run: databricks bundle validate --target dev
+
+      - name: Deploy
+        run: databricks bundle deploy --target dev
