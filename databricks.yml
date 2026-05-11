@@ -6,12 +6,16 @@ variables:
     description: Unity Catalog name
   schema_name:
     description: Schema name
+  volume_name:
+    description: Volume name for raw file landing
   notification_email:
     description: Email for failure notifications
   schedule_cron:
     description: Cron schedule expression
   schedule_pause_status:
     description: PAUSED or UNPAUSED
+  flights_schedule_pause_status:
+    description: PAUSED or UNPAUSED for flights pipeline
 
 include:
   - resources/my_project_jobs/*.yml
@@ -26,9 +30,11 @@ targets:
     variables:
       catalog_name: dev_team
       schema_name: testing
+      volume_name: files_volume
       notification_email: muraliwisc@gmail.com
       schedule_cron: "0 0 6 * * ?"
       schedule_pause_status: PAUSED
+      flights_schedule_pause_status: PAUSED
 
   prod:
     mode: production
@@ -38,6 +44,8 @@ targets:
     variables:
       catalog_name: prod
       schema_name: testing
+      volume_name: files_volume
       notification_email: muraliwisc@gmail.com
       schedule_cron: "0 0 6 * * ?"
       schedule_pause_status: UNPAUSED
+      flights_schedule_pause_status: PAUSED
