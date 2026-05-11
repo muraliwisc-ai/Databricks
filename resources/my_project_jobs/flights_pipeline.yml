@@ -1,0 +1,54 @@
+resources:
+  jobs:
+    flights_pipeline:
+      name: flights_pipeline_${bundle.target}
+
+      email_notifications:
+        on_failure:
+          - ${var.notification_email}
+
+      schedule:
+        quartz_cron_expression: ${var.schedule_cron}
+        timezone_id: UTC
+        pause_status: ${var.flights_schedule_pause_status}
+
+      tasks:
+        - task_key: API_to_File
+          notebook_task:
+            notebook_path: ../../src/my_project_code/01_api_to_raw_file.py
+            base_parameters:
+              catalog: ${var.catalog_name}
+              schema: ${var.schema_name}
+              volume: ${var.volume_name}
+              env: ${bundle.target}
+
+        - task_key: Raw_File_to_Bronze
+          depends_on:
+            - task_key: API_to_File
+          notebook_task:
+            notebook_path: ../../src/my_project_code/02_raw_file_to_bronze.py
+            base_parameters:
+              catalog: ${var.catalog_name}
+              schema: ${var.schema_name}
+              volume: ${var.volume_name}
+              env: ${bundle.target}
+
+        - task_key: Bronze_to_Silver
+          depends_on:
+            - task_key: Raw_File_to_Bronze
+          notebook_task:
+            notebook_path: ../../src/my_project_code/03_bronze_to_silver.py
+            base_parameters:
+              catalog: ${var.catalog_name}
+              schema: ${var.schema_name}
+              env: ${bundle.target}
+
+        - task_key: Silver_to_Gold
+          depends_on:
+            - task_key: Bronze_to_Silver
+          notebook_task:
+            notebook_path: ../../src/my_project_code/04_silver_to_gold.py
+            base_parameters:
+              catalog: ${var.catalog_name}
+              schema: ${var.schema_name}
+              env: ${bundle.target}
